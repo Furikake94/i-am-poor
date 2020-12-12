@@ -22,7 +22,8 @@ sql = '''create table if not exists Expenses (
 cur.executescript(sql)
 conn.commit()
 conn.close()
-
+#this dictionary allows the user to input 'e' and 'i'
+#instead of 'expenses' and 'income'
 table_dict = {  'expenses' : 'expenses',
                 'e' : 'expenses',
                 'income' : 'income',
@@ -35,7 +36,7 @@ def logAmount():
     logs the expense/income in the database.
     Amount = number
     Category = text
-    Details = text
+    Details = text or blank
     table = text
     '''
     tries = 10
@@ -71,8 +72,8 @@ def logAmount():
                 break
 
     Details = input('Add details or leave blank: ')
-    date = str(datetime.now())
-    data = (Amount, Category, Details, date)
+    Date = str(datetime.now())
+    data = (Amount, Category, Details, Date)
 
     for attempt in range(tries):
         if attempt == (tries-1):
@@ -86,7 +87,7 @@ def logAmount():
             else:
                 attempt = 0
                 break
-    table = str(table_dict[table_input])
+    table = table_dict[table_input]
     conn = sqlite3.connect('expenses.sqlite')
     c = conn.cursor()
     sql = "INSERT INTO "+table+" VALUES (NULL, ?, ?, ?, ?)"
@@ -123,7 +124,7 @@ def view(category=None):
                     attempt = 0
                     break
 
-        table = str(table_dict[table_input])
+        table = table_dict[table_input]
         conn = sqlite3.connect('expenses.sqlite')
         c = conn.cursor()
         if category:
@@ -192,7 +193,7 @@ def delAmount():
 
     #this part deletes the line selected by the user. Table and delid are both
     #user-prompted choices
-    table = str(table_dict[table_input])
+    table = table_dict[table_input]
     conn = sqlite3.connect('expenses.sqlite')
     c = conn.cursor()
     sql = '''DELETE FROM '''+table+''' WHERE id=?'''
@@ -200,7 +201,3 @@ def delAmount():
     conn.commit()
     conn.close()
     print('Amount deleted successfully')
-
-
-
-logAmount()
