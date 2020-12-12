@@ -51,11 +51,18 @@ def logAmount():
                 else:
                     print('Invalid input: must type either Y or N')
                     continue
-            tries = 10
-            attempt = 0
 
+
+            #this allows the user to check the logs before attempting any change
+            #so that they can identify the ID of the line they wish to delete
+            print('''Choose the category to visualize the logs of
+             before proceeding (hint: the first number shown in the line is the line ID
+             you need to input to delete that line)''')
+            view()
             #this part makes sure that the script can't be stuck in a loop while picking
             #arguments
+            tries = 10
+            attempt = 0
             for attempt in range(tries):
                 if attempt == (tries-1):
                     sys.exit('Maximum amount of attempts reached. The program will terminate.')
@@ -96,7 +103,7 @@ def logAmount():
                     sys.exit('Maximum amount of attempts reached. The program will terminate.')
 
                 else:
-                    table_input = input('Type [e]xpenses or [i]ncome to see the logs: ')
+                    table_input = input('Type [e]xpenses or [i]ncome to select a table: ')
                     if table_input.lower() not in ['income', 'expenses', 'e', 'i']:
                         print("Not an appropriate choice. You must type either expenses or income")
                         attempt += attempt
@@ -133,7 +140,7 @@ def view(category=None):
     #this loop allows the program to restart
     while True:
         if start != 1:
-            restart = input('Restart? [Y/N]')
+            restart = input('Do you want to check other logs? [Y/N]')
             if restart.lower() == 'y':
                 pass
             elif restart.lower() == 'n':
@@ -205,10 +212,17 @@ def delAmount():
                 print('Invalid input: must type either Y or N')
                 continue
 
+        #this allows the user to check the logs before attempting any change
+        #so that they can identify the ID of the line they wish to delete
+        print('''Choose the table to visualize the logs of
+         before proceeding (hint: the first number shown in the line is the line ID
+         you need to input to delete that line)''')
+        view()
         #this part makes sure that the script can't be stuck in a loop while picking
         #table and line to delete
         tries = 10
         attempt = 0
+
         for attempt in range(tries):
 
             if  attempt == (tries-1):
@@ -216,7 +230,7 @@ def delAmount():
                 sys.exit(0)
             else:
                 #lets the user pick the table in which to operate
-                table_input = input('Type [e]xpenses or [i]ncome to see the logs: ')
+                table_input = input('Type [e]xpenses or [i]ncome to select a table: ')
                 if  table_input.lower() not in ['income', 'expenses', 'e', 'i']:
                         print("Not an appropriate choice. You must type either expenses or income")
                         attempt += attempt
@@ -254,4 +268,4 @@ def delAmount():
             start = 0
 
 
-view()
+delAmount()
